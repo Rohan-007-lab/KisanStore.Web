@@ -1,0 +1,72 @@
+﻿@model KisanStore.Web.Controllers.CategoryViewModel
+@{
+    ViewData["Title"] = "Add New Category";
+}
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header" style="background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);">
+                    <h3 class="mb-0 text-white">
+                        <i class="fas fa-plus-circle"></i> Add New Category
+                    </h3>
+                </div>
+                <div class="card-body p-4">
+                    <form method="post" asp-action="CreateCategory">
+                        <!-- Category Name -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">
+                                <i class="fas fa-tag text-success"></i> Category Name *
+                            </label>
+                            <input type="text" name="CategoryName" class="form-control form-control-lg" 
+                                   placeholder="Enter category name" required>
+                        </div>
+                        
+                        <!-- Description -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">
+                                <i class="fas fa-align-left text-success"></i> Description
+                            </label>
+                            <textarea name="Description" class="form-control" rows="4" 
+                                      placeholder="Enter category description"></textarea>
+                        </div>
+                        
+                        <!-- Image URL -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">
+                                <i class="fas fa-image text-success"></i> Image URL
+                            </label>
+                            <input type="text" name="ImageUrl" class="form-control" 
+                                   placeholder="https://example.com/category-image.jpg">
+                            <small class="text-muted">Enter full URL of category image</small>
+                        </div>
+                        
+                        <!-- Active Checkbox -->
+                        <div class="mb-4">
+                            <div class="form-check form-switch">
+                                <input type="checkbox" name="IsActive" class="form-check-input" 
+                                       id="isActive" checked value="true">
+                                <label class="form-check-label fw-bold" for="isActive">
+                                    <i class="fas fa-toggle-on text-success"></i> Active
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <hr>
+                        
+                        <!-- Buttons -->
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <i class="fas fa-save"></i> Save Category
+                            </button>
+                            <a href="/Admin/Categories" class="btn btn-secondary btn-lg">
+                                <i class="fas fa-times"></i> Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

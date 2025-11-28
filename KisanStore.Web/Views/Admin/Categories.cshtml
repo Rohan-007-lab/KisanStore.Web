@@ -1,0 +1,85 @@
+﻿@model List<KisanStore.Web.Controllers.CategoryViewModel>
+@{
+    ViewData["Title"] = "Manage Categories";
+}
+
+<div class="container my-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2>
+                <i class="fas fa-list text-success"></i> Manage Categories
+            </h2>
+            <p class="text-muted mb-0">Total Categories: @(Model?.Count ?? 0)</p>
+        </div>
+        <a href="/Admin/CreateCategory" class="btn btn-success btn-lg">
+            <i class="fas fa-plus"></i> Add New Category
+        </a>
+    </div>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="row g-4">
+            @foreach (var category in Model)
+            {
+                <div class="col-md-6 col-lg-4">
+                    <div class="card border-0 shadow-sm h-100">
+                        @if (!string.IsNullOrEmpty(category.ImageUrl))
+                        {
+                            <img src="@category.ImageUrl" class="card-img-top" alt="@category.CategoryName"
+                                 style="height: 200px; object-fit: cover;">
+                        }
+                        else
+                        {
+                            <div class="card-img-top bg-light d-flex align-items-center justify-content-center"
+                                 style="height: 200px;">
+                                <i class="fas fa-image fa-3x text-muted"></i>
+                            </div>
+                        }
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <h5 class="card-title mb-0">@category.CategoryName</h5>
+                                @if (category.IsActive)
+                                {
+                                    <span class="badge bg-success">Active</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger">Inactive</span>
+                                }
+                            </div>
+                            <p class="card-text text-muted">
+                                @(category.Description ?? "No description available")
+                            </p>
+                            <small class="text-muted">
+                                <i class="fas fa-calendar"></i> 
+                                Created: @category.CreatedAt.ToString("dd MMM yyyy")
+                            </small>
+                        </div>
+                        <div class="card-footer bg-transparent border-0 d-flex gap-2">
+                            <a href="#" class="btn btn-warning btn-sm flex-fill">
+                                <i class="fas fa-edit"></i> Edit
+                            </a>
+                            <button class="btn btn-danger btn-sm flex-fill" 
+                                    onclick="return confirm('Are you sure?')">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="card border-0 shadow-sm">
+            <div class="card-body text-center py-5">
+                <i class="fas fa-folder-open fa-4x text-muted mb-3"></i>
+                <h4>No Categories Found</h4>
+                <p class="text-muted">Start by adding your first category</p>
+                <a href="/Admin/CreateCategory" class="btn btn-success mt-3">
+                    <i class="fas fa-plus"></i> Add Category
+                </a>
+            </div>
+        </div>
+    }
+</div>

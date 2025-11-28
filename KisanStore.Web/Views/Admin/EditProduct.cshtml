@@ -1,41 +1,42 @@
 ﻿@model KisanStore.Web.Controllers.ProductViewModel
 @{
-    ViewData["Title"] = "Add New Product";
+    ViewData["Title"] = "Edit Product";
 }
 
 <div class="container my-5">
     <div class="row justify-content-center">
         <div class="col-lg-10">
             <div class="card border-0 shadow-sm">
-                <div class="card-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                <div class="card-header" style="background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);">
                     <h3 class="mb-0 text-white">
-                        <i class="fas fa-plus-circle"></i> Add New Product
+                        <i class="fas fa-edit"></i> Edit Product: @Model.ProductName
                     </h3>
                 </div>
                 <div class="card-body p-4">
-                    <form method="post" asp-action="CreateProduct">
+                    <form method="post" asp-action="EditProduct" asp-route-id="@Model.ProductId">
+                        <input type="hidden" name="ProductId" value="@Model.ProductId" />
+                        <input type="hidden" name="CreatedAt" value="@Model.CreatedAt" />
+                        
                         <div class="row">
                             <!-- Product Name -->
                             <div class="col-md-6 mb-3">
-                                <label class="form-label fw-bold">
-                                    <i class="fas fa-box text-primary"></i> Product Name *
-                                </label>
+                                <label class="form-label fw-bold">Product Name *</label>
                                 <input type="text" name="ProductName" class="form-control" 
-                                       placeholder="Enter product name" required>
+                                       value="@Model.ProductName" required>
                             </div>
                             
                             <!-- Category -->
                             <div class="col-md-6 mb-3">
-                                <label class="form-label fw-bold">
-                                    <i class="fas fa-list text-primary"></i> Category *
-                                </label>
+                                <label class="form-label fw-bold">Category *</label>
                                 <select name="CategoryId" class="form-select" required>
-                                    <option value="">Select Category</option>
                                     @if (ViewBag.Categories != null)
                                     {
                                         @foreach (var cat in ViewBag.Categories)
                                         {
-                                            <option value="@cat.CategoryId">@cat.CategoryName</option>
+                                            <option value="@cat.CategoryId" 
+                                                    selected="@(cat.CategoryId == Model.CategoryId)">
+                                                @cat.CategoryName
+                                            </option>
                                         }
                                     }
                                 </select>
@@ -43,81 +44,71 @@
                             
                             <!-- Description -->
                             <div class="col-12 mb-3">
-                                <label class="form-label fw-bold">
-                                    <i class="fas fa-align-left text-primary"></i> Description
-                                </label>
-                                <textarea name="Description" class="form-control" rows="3" 
-                                          placeholder="Enter product description"></textarea>
+                                <label class="form-label fw-bold">Description</label>
+                                <textarea name="Description" class="form-control" rows="3">@Model.Description</textarea>
                             </div>
                             
                             <!-- Price -->
                             <div class="col-md-4 mb-3">
-                                <label class="form-label fw-bold">
-                                    <i class="fas fa-rupee-sign text-primary"></i> Price (₹) *
-                                </label>
+                                <label class="form-label fw-bold">Price (₹) *</label>
                                 <input type="number" name="Price" step="0.01" class="form-control" 
-                                       placeholder="0.00" required>
+                                       value="@Model.Price" required>
                             </div>
                             
                             <!-- Discount Price -->
                             <div class="col-md-4 mb-3">
-                                <label class="form-label fw-bold">
-                                    <i class="fas fa-tag text-primary"></i> Discount Price (₹)
-                                </label>
+                                <label class="form-label fw-bold">Discount Price (₹)</label>
                                 <input type="number" name="DiscountPrice" step="0.01" class="form-control" 
-                                       placeholder="0.00">
+                                       value="@Model.DiscountPrice">
                             </div>
                             
                             <!-- Stock Quantity -->
                             <div class="col-md-4 mb-3">
-                                <label class="form-label fw-bold">
-                                    <i class="fas fa-warehouse text-primary"></i> Stock Quantity *
-                                </label>
+                                <label class="form-label fw-bold">Stock Quantity *</label>
                                 <input type="number" name="StockQuantity" class="form-control" 
-                                       placeholder="0" required>
+                                       value="@Model.StockQuantity" required>
                             </div>
                             
                             <!-- Unit -->
                             <div class="col-md-6 mb-3">
-                                <label class="form-label fw-bold">
-                                    <i class="fas fa-weight text-primary"></i> Unit
-                                </label>
+                                <label class="form-label fw-bold">Unit</label>
                                 <select name="Unit" class="form-select">
-                                    <option value="Liter">Liter</option>
-                                    <option value="KG">KG</option>
-                                    <option value="Packet">Packet</option>
-                                    <option value="Bottle">Bottle</option>
-                                    <option value="Bag">Bag</option>
-                                    <option value="Piece">Piece</option>
+                                    <option value="Liter" selected="@(Model.Unit == "Liter")">Liter</option>
+                                    <option value="KG" selected="@(Model.Unit == "KG")">KG</option>
+                                    <option value="Packet" selected="@(Model.Unit == "Packet")">Packet</option>
+                                    <option value="Bottle" selected="@(Model.Unit == "Bottle")">Bottle</option>
+                                    <option value="Bag" selected="@(Model.Unit == "Bag")">Bag</option>
                                 </select>
                             </div>
                             
                             <!-- Manufacturer -->
                             <div class="col-md-6 mb-3">
-                                <label class="form-label fw-bold">
-                                    <i class="fas fa-industry text-primary"></i> Manufacturer
-                                </label>
+                                <label class="form-label fw-bold">Manufacturer</label>
                                 <input type="text" name="Manufacturer" class="form-control" 
-                                       placeholder="Enter manufacturer name">
+                                       value="@Model.Manufacturer">
                             </div>
                             
                             <!-- Image URL -->
                             <div class="col-12 mb-3">
-                                <label class="form-label fw-bold">
-                                    <i class="fas fa-image text-primary"></i> Image URL
-                                </label>
+                                <label class="form-label fw-bold">Image URL</label>
                                 <input type="text" name="ImageUrl" class="form-control" 
-                                       placeholder="https://example.com/image.jpg">
-                                <small class="text-muted">Enter full URL of product image</small>
+                                       value="@Model.ImageUrl">
+                                @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                                {
+                                    <div class="mt-2">
+                                        <img src="@Model.ImageUrl" alt="Preview" class="img-thumbnail" 
+                                             style="max-height: 150px;">
+                                    </div>
+                                }
                             </div>
                             
                             <!-- Checkboxes -->
                             <div class="col-md-6 mb-3">
                                 <div class="form-check form-switch">
                                     <input type="checkbox" name="IsActive" class="form-check-input" 
-                                           id="isActive" checked value="true">
+                                           id="isActive" checked="@Model.IsActive" value="true">
                                     <label class="form-check-label fw-bold" for="isActive">
-                                        <i class="fas fa-toggle-on text-success"></i> Active
+                                        Active
                                     </label>
                                 </div>
                             </div>
@@ -125,9 +116,9 @@
                             <div class="col-md-6 mb-3">
                                 <div class="form-check form-switch">
                                     <input type="checkbox" name="IsFeatured" class="form-check-input" 
-                                           id="isFeatured" value="true">
+                                           id="isFeatured" checked="@Model.IsFeatured" value="true">
                                     <label class="form-check-label fw-bold" for="isFeatured">
-                                        <i class="fas fa-star text-warning"></i> Featured Product
+                                        Featured Product
                                     </label>
                                 </div>
                             </div>
@@ -138,7 +129,7 @@
                         <!-- Buttons -->
                         <div class="d-flex gap-2">
                             <button type="submit" class="btn btn-primary btn-lg">
-                                <i class="fas fa-save"></i> Save Product
+                                <i class="fas fa-save"></i> Update Product
                             </button>
                             <a href="/Admin/Products" class="btn btn-secondary btn-lg">
                                 <i class="fas fa-times"></i> Cancel

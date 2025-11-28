@@ -1,69 +1,142 @@
-﻿<!-- Views/Admin/Orders.cshtml -->
-@model List<KisanStore.Web.Models.Order>
+﻿@model List<KisanStore.Web.Controllers.OrderViewModel>
 @{
     ViewData["Title"] = "Manage Orders";
 }
 
 <div class="container my-5">
-    <h2 class="mb-4"><i class="fas fa-shopping-cart"></i> Manage Orders</h2>
-
-    <div class="table-responsive">
-        <table class="table table-hover">
-            <thead class="table-dark">
-                <tr>
-                    <th>Order #</th>
-                    <th>Customer</th>
-                    <th>Date</th>
-                    <th>Total</th>
-                    <th>Status</th>
-                    <th>Payment</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (Model != null && Model.Any())
-                {
-                    @foreach (var order in Model)
-                    {
-                        <tr>
-                            <td>@order.OrderNumber</td>
-                            <td>@order.User?.FullName</td>
-                           
-                            <td>₹@order.TotalAmount</td>
-                            <td>
-                                @if (order.OrderStatus == "Delivered")
-                                {
-                                    <span class="badge bg-success">@order.OrderStatus</span>
-                                }
-                                else if (order.OrderStatus == "Cancelled")
-                                {
-                                    <span class="badge bg-danger">@order.OrderStatus</span>
-                                }
-                                else
-                                {
-                                    <span class="badge bg-warning">@order.OrderStatus</span>
-                                }
-                            </td>
-                            <td>
-                                <span class="badge bg-info">@order.PaymentStatus</span>
-                            </td>
-                            <td>
-                                <form method="post" action="/Admin/UpdateOrderStatus" class="d-inline">
-                                    <input type="hidden" name="orderId" value="@order.OrderId">
-                                    <select name="status" class="form-select form-select-sm" 
-                                            onchange="this.form.submit()">
-                                        <option value="Pending" selected="@(order.OrderStatus == "Pending")">Pending</option>
-                                        <option value="Processing" selected="@(order.OrderStatus == "Processing")">Processing</option>
-                                        <option value="Shipped" selected="@(order.OrderStatus == "Shipped")">Shipped</option>
-                                        <option value="Delivered" selected="@(order.OrderStatus == "Delivered")">Delivered</option>
-                                        <option value="Cancelled" selected="@(order.OrderStatus == "Cancelled")">Cancelled</option>
-                                    </select>
-                                </form>
-                            </td>
-                        </tr>
-                    }
-                }
-            </tbody>
-        </table>
+    <div class="mb-4">
+        <h2>
+            <i class="fas fa-shopping-cart text-info"></i> Manage Orders
+        </h2>
+        <p class="text-muted mb-0">Total Orders: @(Model?.Count ?? 0)</p>
     </div>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead style="background: linear-gradient(135deg, #3498db 0%, #2980b9 100%); color: white;">
+                            <tr>
+                                <th>Order #</th>
+                                <th>Customer</th>
+                                <th>Date</th>
+                                <th>Items</th>
+                                <th>Total</th>
+                                <th>Payment</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var order in Model)
+                            {
+                                <tr>
+                                    <td class="align-middle">
+                                        <strong>@order.OrderNumber</strong>
+                                    </td>
+                                    <td class="align-middle">
+                                        <div>
+                                            <strong>@order.User?.FullName</strong>
+                                            <br>
+                                            <small class="text-muted">@order.User?.Email</small>
+                                        </div>
+                                    </td>
+                                    <td class="align-middle">
+                                        <small>@order.OrderDate.ToString("dd MMM yyyy")</small>
+                                        <br>
+                                        <small class="text-muted">@order.OrderDate.ToString("hh:mm tt")</small>
+                                    </td>
+                                    <td class="align-middle">
+                                        <span class="badge bg-secondary">
+                                            @order.OrderItems.Count items
+                                        </span>
+                                    </td>
+                                    <td class="align-middle">
+                                        <strong class="text-success">₹@order.TotalAmount</strong>
+                                    </td>
+                                    <td class="align-middle">
+                                        @if (order.PaymentStatus == "Completed")
+                                        {
+                                            <span class="badge bg-success">
+                                                <i class="fas fa-check"></i> Paid
+                                            </span>
+                                        }
+                                        else if (order.PaymentStatus == "Pending")
+                                        {
+                                            <span class="badge bg-warning">
+                                                <i class="fas fa-clock"></i> Pending
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-danger">
+                                                <i class="fas fa-times"></i> Failed
+                                            </span>
+                                        }
+                                    </td>
+                                    <td class="align-middle">
+                                        @if (order.OrderStatus == "Delivered")
+                                        {
+                                            <span class="badge bg-success">Delivered</span>
+                                        }
+                                        else if (order.OrderStatus == "Shipped")
+                                        {
+                                            <span class="badge bg-info">Shipped</span>
+                                        }
+                                        else if (order.OrderStatus == "Processing")
+                                        {
+                                            <span class="badge bg-primary">Processing</span>
+                                        }
+                                        else if (order.OrderStatus == "Cancelled")
+                                        {
+                                            <span class="badge bg-danger">Cancelled</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-warning">Pending</span>
+                                        }
+                                    </td>
+                                    <td class="align-middle">
+                                        <form method="post" action="/Admin/UpdateOrderStatus" class="d-inline">
+                                            <input type="hidden" name="orderId" value="@order.OrderId">
+                                            <select name="status" class="form-select form-select-sm" 
+                                                    onchange="this.form.submit()" style="min-width: 130px;">
+                                                <option value="Pending" selected="@(order.OrderStatus == "Pending")">
+                                                    Pending
+                                                </option>
+                                                <option value="Processing" selected="@(order.OrderStatus == "Processing")">
+                                                    Processing
+                                                </option>
+                                                <option value="Shipped" selected="@(order.OrderStatus == "Shipped")">
+                                                    Shipped
+                                                </option>
+                                                <option value="Delivered" selected="@(order.OrderStatus == "Delivered")">
+                                                    Delivered
+                                                </option>
+                                                <option value="Cancelled" selected="@(order.OrderStatus == "Cancelled")">
+                                                    Cancelled
+                                                </option>
+                                            </select>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="card border-0 shadow-sm">
+            <div class="card-body text-center py-5">
+                <i class="fas fa-shopping-bag fa-4x text-muted mb-3"></i>
+                <h4>No Orders Found</h4>
+                <p class="text-muted">Orders will appear here when customers make purchases</p>
+            </div>
+        </div>
+    }
 </div>
