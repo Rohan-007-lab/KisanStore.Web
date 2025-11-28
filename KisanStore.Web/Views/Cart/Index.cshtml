@@ -1,0 +1,93 @@
+﻿<!-- Views/Cart/Index.cshtml -->
+@model List<KisanStore.Web.Models.Cart>
+@{
+    ViewData["Title"] = "Shopping Cart";
+    decimal total = 0;
+}
+
+<div class="container my-5">
+    <h2 class="mb-4"><i class="fas fa-shopping-cart"></i> Shopping Cart</h2>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="row">
+            <div class="col-md-8">
+                @foreach (var item in Model)
+                {
+                    var price = item.Product?.DiscountPrice ?? item.Product?.Price ?? 0;
+                    var itemTotal = price * item.Quantity;
+                    total += itemTotal;
+
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col-md-2">
+                                    <img src="@(item.Product?.ImageUrl ?? "/images/placeholder.jpg")" 
+                                         class="img-fluid rounded" alt="@item.Product?.ProductName">
+                                </div>
+                                <div class="col-md-4">
+                                    <h5>@item.Product?.ProductName</h5>
+                                    <p class="text-muted mb-0">@item.Product?.Manufacturer</p>
+                                </div>
+                                <div class="col-md-2">
+                                    <p class="mb-0"><strong>₹@price</strong></p>
+                                    <small class="text-muted">per @item.Product?.Unit</small>
+                                </div>
+                                <div class="col-md-2">
+                                    <p class="mb-0">Qty: <strong>@item.Quantity</strong></p>
+                                </div>
+                                <div class="col-md-2 text-end">
+                                    <p class="mb-2"><strong>₹@itemTotal</strong></p>
+                                    <form method="post" action="/Cart/Remove/@item.CartId">
+                                        <button type="submit" class="btn btn-sm btn-danger">
+                                            <i class="fas fa-trash"></i> Remove
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="col-md-4">
+                <div class="card sticky-top" style="top: 20px;">
+                    <div class="card-body">
+                        <h5 class="card-title">Order Summary</h5>
+                        <hr>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Subtotal:</span>
+                            <strong>₹@total</strong>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Delivery:</span>
+                            <strong>FREE</strong>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between mb-3">
+                            <h5>Total:</h5>
+                            <h5 class="text-primary">₹@total</h5>
+                        </div>
+                        <button class="btn btn-primary w-100 mb-2">
+                            <i class="fas fa-check"></i> Proceed to Checkout
+                        </button>
+                        <a href="/Products" class="btn btn-outline-primary w-100">
+                            <i class="fas fa-shopping-bag"></i> Continue Shopping
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="text-center py-5">
+            <i class="fas fa-shopping-cart fa-5x text-muted mb-3"></i>
+            <h3>Your cart is empty</h3>
+            <p class="text-muted">Add products to your cart to see them here.</p>
+            <a href="/Products" class="btn btn-primary mt-3">
+                <i class="fas fa-shopping-bag"></i> Browse Products
+            </a>
+        </div>
+    }
+</div>

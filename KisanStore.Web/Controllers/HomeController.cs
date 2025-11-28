@@ -1,32 +1,41 @@
 using KisanStore.Web.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
+using System.Text.Json;
 
 namespace KisanStore.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly HttpClient _httpClient;
+        private readonly string _apiUrl = "https://localhost:7090/api";
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IHttpClientFactory httpClientFactory)
         {
-            _logger = logger;
+            _httpClient = httpClientFactory.CreateClient();
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
+        {
+            var response = await _httpClient.GetAsync($"{_apiUrl}/Products/featured");
+            if (response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                var products = JsonSerializer.Deserialize<List<Product>>(json,
+                    new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                return View(products);
+            }
+            return View(new List<Product>());
+        }
+
+        public IActionResult About()
         {
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult Contact()
         {
             return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
+
 }

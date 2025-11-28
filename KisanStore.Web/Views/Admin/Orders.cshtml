@@ -1,0 +1,69 @@
+﻿<!-- Views/Admin/Orders.cshtml -->
+@model List<KisanStore.Web.Models.Order>
+@{
+    ViewData["Title"] = "Manage Orders";
+}
+
+<div class="container my-5">
+    <h2 class="mb-4"><i class="fas fa-shopping-cart"></i> Manage Orders</h2>
+
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Order #</th>
+                    <th>Customer</th>
+                    <th>Date</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th>Payment</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    @foreach (var order in Model)
+                    {
+                        <tr>
+                            <td>@order.OrderNumber</td>
+                            <td>@order.User?.FullName</td>
+                           
+                            <td>₹@order.TotalAmount</td>
+                            <td>
+                                @if (order.OrderStatus == "Delivered")
+                                {
+                                    <span class="badge bg-success">@order.OrderStatus</span>
+                                }
+                                else if (order.OrderStatus == "Cancelled")
+                                {
+                                    <span class="badge bg-danger">@order.OrderStatus</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-warning">@order.OrderStatus</span>
+                                }
+                            </td>
+                            <td>
+                                <span class="badge bg-info">@order.PaymentStatus</span>
+                            </td>
+                            <td>
+                                <form method="post" action="/Admin/UpdateOrderStatus" class="d-inline">
+                                    <input type="hidden" name="orderId" value="@order.OrderId">
+                                    <select name="status" class="form-select form-select-sm" 
+                                            onchange="this.form.submit()">
+                                        <option value="Pending" selected="@(order.OrderStatus == "Pending")">Pending</option>
+                                        <option value="Processing" selected="@(order.OrderStatus == "Processing")">Processing</option>
+                                        <option value="Shipped" selected="@(order.OrderStatus == "Shipped")">Shipped</option>
+                                        <option value="Delivered" selected="@(order.OrderStatus == "Delivered")">Delivered</option>
+                                        <option value="Cancelled" selected="@(order.OrderStatus == "Cancelled")">Cancelled</option>
+                                    </select>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

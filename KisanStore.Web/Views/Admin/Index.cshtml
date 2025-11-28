@@ -1,0 +1,59 @@
+﻿<!-- Views/Admin/Index.cshtml -->
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="container my-5">
+    <h2 class="mb-4"><i class="fas fa-cog"></i> Admin Dashboard</h2>
+    
+    <div class="row g-4">
+        <div class="col-md-3">
+            <div class="card text-center bg-primary text-white">
+                <div class="card-body">
+                    <i class="fas fa-box fa-3x mb-3"></i>
+                    <h3>Products</h3>
+                    <p>Manage all products</p>
+                    <a href="/Admin/Products" class="btn btn-light">Manage</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3">
+            <div class="card text-center bg-success text-white">
+                <div class="card-body">
+                    <i class="fas fa-list fa-3x mb-3"></i>
+                    <h3>Categories</h3>
+                    <p>Manage categories</p>
+                    <a href="/Admin/Categories" class="btn btn-light">Manage</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3">
+            <div class="card text-center bg-info text-white">
+                <div class="card-body">
+                    <i class="fas fa-shopping-cart fa-3x mb-3"></i>
+                    <h3>Orders</h3>
+                    <p>Manage all orders</p>
+                    <a href="/Admin/Orders" class="btn btn-light">Manage</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3">
+            <div class="card text-center bg-warning text-white">
+                <div class="card-body">
+                    <i class="fas fa-users fa-3x mb-3"></i>
+                    <h3>Customers</h3>
+                    <p>View customers</p>
+                    <a href="/Admin/Users" class="btn btn-light">View</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
