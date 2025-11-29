@@ -1,0 +1,357 @@
+﻿@{
+    ViewData["Title"] = "Contact Us";
+}
+
+<div class="contact-hero">
+    <div class="container">
+        <h1 class="display-4 fw-bold text-white mb-2">
+            <i class="fas fa-phone-alt"></i> Contact Us
+        </h1>
+        <p class="lead text-white-50">We're here to help you succeed</p>
+    </div>
+</div>
+
+<div class="container my-5">
+    <div class="row g-5">
+        <!-- Contact Form -->
+        <div class="col-lg-7">
+            <div class="contact-form-card">
+                <h3 class="mb-4">
+                    <i class="fas fa-envelope text-primary"></i> Send us a Message
+                </h3>
+                <form>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Full Name *</label>
+                            <input type="text" class="form-control form-control-lg" 
+                                   placeholder="Enter your name" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Email Address *</label>
+                            <input type="email" class="form-control form-control-lg" 
+                                   placeholder="your@email.com" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Phone Number</label>
+                            <input type="tel" class="form-control form-control-lg" 
+                                   placeholder="+91 98765 43210">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Subject *</label>
+                            <select class="form-select form-select-lg" required>
+                                <option value="">Select a subject</option>
+                                <option>Product Inquiry</option>
+                                <option>Order Support</option>
+                                <option>Technical Issue</option>
+                                <option>Feedback</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-bold">Message *</label>
+                            <textarea class="form-control form-control-lg" rows="6" 
+                                      placeholder="Tell us how we can help you..." required></textarea>
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary btn-lg px-5">
+                                <i class="fas fa-paper-plane"></i> Send Message
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        <!-- Contact Info -->
+        <div class="col-lg-5">
+            <!-- Office Info -->
+            <div class="contact-info-card">
+                <div class="contact-icon">
+                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <h5>Visit Our Office</h5>
+                <p class="text-muted">
+                    123 Agriculture Plaza<br>
+                    Pune, Maharashtra 411001<br>
+                    India
+                </p>
+            </div>
+
+            <div class="contact-info-card">
+                <div class="contact-icon">
+                    <i class="fas fa-phone"></i>
+                </div>
+                <h5>Call Us</h5>
+                <p class="text-muted">
+                    Customer Support: +91 98765 43210<br>
+                    Sales: +91 98765 43211<br>
+                    Mon - Sat: 9:00 AM - 6:00 PM
+                </p>
+            </div>
+
+            <div class="contact-info-card">
+                <div class="contact-icon">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <h5>Email Us</h5>
+                <p class="text-muted">
+                    Support: support@kisanstore.com<br>
+                    Sales: sales@kisanstore.com<br>
+                    Info: info@kisanstore.com
+                </p>
+            </div>
+
+            <!-- Social Media -->
+            <div class="social-media-card">
+                <h5 class="mb-3">Follow Us</h5>
+                <div class="social-buttons">
+                    <a href="#" class="social-btn facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="social-btn twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="social-btn instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="social-btn linkedin">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="#" class="social-btn youtube">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Map Section -->
+    <div class="map-section">
+        <h3 class="text-center mb-4">Find Us on Map</h3>
+        <div class="map-container">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3783.2615890179346!2d73.85674631489315!3d18.51957098741924!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2c06fa4e86f0f%3A0x2d2eb5e5c4424e2d!2sPune%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1234567890123!5m2!1sen!2sin" 
+                    width="100%" height="400" style="border:0; border-radius: 16px;" 
+                    allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="faq-section">
+        <div class="text-center mb-5">
+            <h3 class="display-6 fw-bold">Frequently Asked Questions</h3>
+            <p class="text-muted">Quick answers to common questions</p>
+        </div>
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="accordion" id="faqAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" 
+                                    data-bs-target="#faq1">
+                                What are your delivery charges?
+                            </button>
+                        </h2>
+                        <div id="faq1" class="accordion-collapse collapse show" 
+                             data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                We offer free delivery on all orders above ₹500. For orders below ₹500, 
+                                a nominal delivery charge of ₹50 applies.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" 
+                                    data-bs-toggle="collapse" data-bs-target="#faq2">
+                                How long does delivery take?
+                            </button>
+                        </h2>
+                        <div id="faq2" class="accordion-collapse collapse" 
+                             data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Typically, orders are delivered within 3-5 business days. 
+                                Delivery times may vary based on your location.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" 
+                                    data-bs-toggle="collapse" data-bs-target="#faq3">
+                                Do you provide technical support for products?
+                            </button>
+                        </h2>
+                        <div id="faq3" class="accordion-collapse collapse" 
+                             data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Yes! Our agricultural experts are available to guide you on 
+                                proper product usage and application techniques.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" 
+                                    data-bs-toggle="collapse" data-bs-target="#faq4">
+                                What is your return policy?
+                            </button>
+                        </h2>
+                        <div id="faq4" class="accordion-collapse collapse" 
+                             data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                We offer a 7-day return policy on most products. 
+                                Products must be unused and in original packaging.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .contact-hero {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 60px 0;
+    }
+
+    .contact-form-card {
+        background: white;
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+    }
+
+    .contact-form-card h3 {
+        font-weight: 700;
+        color: #2c3e50;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    }
+
+    .contact-info-card {
+        background: white;
+        padding: 30px;
+        border-radius: 16px;
+        box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+        margin-bottom: 20px;
+        transition: all 0.3s ease;
+    }
+
+    .contact-info-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
+
+    .contact-icon {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, #2e7d32 0%, #558b2f 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        color: white;
+        margin-bottom: 20px;
+    }
+
+    .contact-info-card h5 {
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 15px;
+    }
+
+    .social-media-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 30px;
+        border-radius: 16px;
+        color: white;
+        text-align: center;
+    }
+
+    .social-media-card h5 {
+        font-weight: 700;
+        margin-bottom: 20px;
+    }
+
+    .social-buttons {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .social-btn {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.2rem;
+        transition: all 0.3s ease;
+    }
+
+    .social-btn.facebook { background: #3b5998; }
+    .social-btn.twitter { background: #1da1f2; }
+    .social-btn.instagram { background: #e4405f; }
+    .social-btn.linkedin { background: #0077b5; }
+    .social-btn.youtube { background: #ff0000; }
+
+    .social-btn:hover {
+        transform: translateY(-5px) scale(1.1);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+
+    .map-section {
+        margin: 80px 0;
+    }
+
+    .map-container {
+        box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+        border-radius: 16px;
+        overflow: hidden;
+    }
+
+    .faq-section {
+        margin: 80px 0;
+    }
+
+    .accordion-item {
+        border: none;
+        background: white;
+        margin-bottom: 15px;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    }
+
+    .accordion-button {
+        font-weight: 600;
+        color: #2c3e50;
+        background: white;
+        padding: 20px 25px;
+        border: none;
+    }
+
+    .accordion-button:not(.collapsed) {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+
+    .accordion-button:focus {
+        box-shadow: none;
+    }
+
+    .accordion-body {
+        padding: 25px;
+        color: #7f8c8d;
+        line-height: 1.8;
+    }
+</style>

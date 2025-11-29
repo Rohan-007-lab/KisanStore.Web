@@ -3,41 +3,55 @@
     ViewData["Title"] = "Home";
 }
 
-<div class="hero-section">
-    <div class="container">
-        <h1 class="display-4"><i class="fas fa-seedling"></i> Welcome to KisanStore</h1>
-        <p class="lead">Premium Agriculture Medicines & Solutions for Your Farm</p>
-        <a href="/Products" class="btn btn-light btn-lg mt-3">
+<!-- Hero Section -->
+<div class="hero-section d-flex align-items-center">
+    <div class="container text-center text-white">
+        <h1 class="display-3 fw-bold mb-3 animate-fade">
+            <i class="fas fa-seedling"></i> KisanStore
+        </h1>
+        <p class="lead mb-4 animate-fade">
+            Premium Agriculture Medicines & Smart Farming Solutions
+        </p>
+        <a href="/Products" class="btn btn-light btn-lg shadow-lg px-5 py-2 rounded-pill animate-fade">
             <i class="fas fa-shopping-bag"></i> Shop Now
         </a>
     </div>
 </div>
 
+<!-- Featured Products -->
 <div class="container my-5">
-    <h2 class="text-center mb-4">Featured Products</h2>
+    <h2 class="text-center fw-bold mb-4 section-title">Featured Products</h2>
+
     <div class="row g-4">
         @if (Model != null && Model.Any())
         {
             @foreach (var product in Model)
             {
-                <div class="col-md-3">
-                    <div class="card product-card h-100">
-                        <img src="@(product.ImageUrl ?? "/images/placeholder.jpg")" class="card-img-top" alt="@product.ProductName">
+                <div class="col-md-3 col-sm-6">
+                    <div class="card product-card shadow-sm border-0 rounded-4 h-100">
+                        <div class="product-img-wrapper">
+                            <img src="@(product.ImageUrl ?? "/images/placeholder.jpg")" 
+                                 class="card-img-top rounded-top-4" 
+                                 alt="@product.ProductName">
+                        </div>
+
                         <div class="card-body">
-                            <h5 class="card-title">@product.ProductName</h5>
-                            <p class="card-text text-muted small">@product.Manufacturer</p>
+                            <h5 class="card-title fw-bold">@product.ProductName</h5>
+                            <p class="text-muted small">@product.Manufacturer</p>
+
                             <div class="mb-2">
                                 @if (product.DiscountPrice.HasValue)
                                 {
-                                    <span class="price">₹@product.DiscountPrice</span>
-                                    <span class="old-price ms-2">₹@product.Price</span>
+                                    <span class="price fw-bold text-success">₹@product.DiscountPrice</span>
+                                    <span class="old-price text-muted text-decoration-line-through ms-2">₹@product.Price</span>
                                 }
                                 else
                                 {
-                                    <span class="price">₹@product.Price</span>
+                                    <span class="price fw-bold">₹@product.Price</span>
                                 }
-                                <span class="text-muted">/@product.Unit</span>
+                                <span class="text-muted small">/@product.Unit</span>
                             </div>
+
                             @if (product.StockQuantity > 0)
                             {
                                 <span class="badge bg-success">In Stock</span>
@@ -47,8 +61,10 @@
                                 <span class="badge bg-danger">Out of Stock</span>
                             }
                         </div>
-                        <div class="card-footer bg-transparent">
-                            <a href="/Products/Details/@product.ProductId" class="btn btn-primary btn-sm w-100">
+
+                        <div class="card-footer bg-transparent border-0">
+                            <a href="/Products/Details/@product.ProductId" 
+                               class="btn btn-primary w-100 rounded-pill shadow-sm">
                                 <i class="fas fa-eye"></i> View Details
                             </a>
                         </div>
@@ -67,10 +83,11 @@
     </div>
 </div>
 
+<!-- Services Section -->
 <div class="container my-5">
-    <div class="row text-center">
+    <div class="row text-center g-4">
         <div class="col-md-3">
-            <div class="card border-0">
+            <div class="card service-card shadow-sm border-0 rounded-4">
                 <div class="card-body">
                     <i class="fas fa-truck fa-3x text-primary mb-3"></i>
                     <h5>Free Delivery</h5>
@@ -78,8 +95,9 @@
                 </div>
             </div>
         </div>
+
         <div class="col-md-3">
-            <div class="card border-0">
+            <div class="card service-card shadow-sm border-0 rounded-4">
                 <div class="card-body">
                     <i class="fas fa-shield-alt fa-3x text-primary mb-3"></i>
                     <h5>Genuine Products</h5>
@@ -87,8 +105,9 @@
                 </div>
             </div>
         </div>
+
         <div class="col-md-3">
-            <div class="card border-0">
+            <div class="card service-card shadow-sm border-0 rounded-4">
                 <div class="card-body">
                     <i class="fas fa-headset fa-3x text-primary mb-3"></i>
                     <h5>24/7 Support</h5>
@@ -96,8 +115,9 @@
                 </div>
             </div>
         </div>
+
         <div class="col-md-3">
-            <div class="card border-0">
+            <div class="card service-card shadow-sm border-0 rounded-4">
                 <div class="card-body">
                     <i class="fas fa-undo fa-3x text-primary mb-3"></i>
                     <h5>Easy Returns</h5>
@@ -107,3 +127,73 @@
         </div>
     </div>
 </div>
+
+<!-- Custom CSS -->
+<style>
+    /* Hero Section */
+    .hero-section {
+        height: 70vh;
+        background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
+                    url('/images/hero-farm-bg.jpg') center/cover no-repeat;
+        border-radius: 0 0 40px 40px;
+        backdrop-filter: blur(5px);
+    }
+
+    .section-title {
+        position: relative;
+        display: inline-block;
+    }
+
+    .section-title::after {
+        content: "";
+        width: 60px;
+        height: 4px;
+        background: #0d6efd;
+        display: block;
+        margin: 8px auto 0;
+        border-radius: 10px;
+    }
+
+    /* Product Card */
+    .product-card {
+        transition: all 0.3s ease;
+    }
+    .product-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+    .product-img-wrapper {
+        height: 220px;
+        overflow: hidden;
+        border-radius: 20px 20px 0 0;
+    }
+    .product-img-wrapper img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+    }
+    .product-card:hover img {
+        transform: scale(1.1);
+    }
+
+    /* Animations */
+    .animate-fade {
+        animation: fadeIn 1.2s ease-in-out;
+    }
+   
+
+    /* Service Cards */
+    .service-card {
+        transition: 0.3s ease;
+        border-radius: 20px;
+    }
+    .service-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    }
+
+    .old-price {
+        font-size: 0.85rem;
+    }
+</style>
