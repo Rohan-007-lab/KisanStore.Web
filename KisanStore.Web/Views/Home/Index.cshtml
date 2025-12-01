@@ -3,197 +3,418 @@
     ViewData["Title"] = "Home";
 }
 
-<!-- Hero Section -->
-<div class="hero-section d-flex align-items-center">
-    <div class="container text-center text-white">
-        <h1 class="display-3 fw-bold mb-3 animate-fade">
-            <i class="fas fa-seedling"></i> KisanStore
-        </h1>
-        <p class="lead mb-4 animate-fade">
-            Premium Agriculture Medicines & Smart Farming Solutions
-        </p>
-        <a href="/Products" class="btn btn-light btn-lg shadow-lg px-5 py-2 rounded-pill animate-fade">
-            <i class="fas fa-shopping-bag"></i> Shop Now
-        </a>
+
+<!-- Hero Section with Animation -->
+<div class="hero-section position-relative overflow-hidden">
+    <div class="hero-bg"></div>
+    <div class="container">
+        <div class="row align-items-center min-vh-50">
+            <div class="col-lg-6 hero-content">
+                <h1 class="display-3 fw-bold mb-4 animate-fade-in">
+                    Welcome to <span class="text-gradient">KisanStore</span>
+                </h1>
+                <p class="lead mb-4 animate-fade-in-delay">
+                    Premium Agriculture Medicines & Solutions for Your Farm
+                </p>
+                <div class="d-flex gap-3 animate-fade-in-delay-2">
+                    <a href="/Products/Index" class="btn btn-primary btn-lg shadow-lg hover-lift">
+                        <i class="fas fa-shopping-bag"></i> Shop Now
+                    </a>
+                    <a href="/Home/About" class="btn btn-outline-light btn-lg hover-lift">
+                        <i class="fas fa-info-circle"></i> Learn More
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6 d-none d-lg-block">
+                <div class="hero-image animate-float">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2917/2917995.png" 
+                         alt="Agriculture" class="img-fluid">
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
-<!-- Featured Products -->
+<!-- Featured Products Section -->
 <div class="container my-5">
-    <h2 class="text-center fw-bold mb-4 section-title">Featured Products</h2>
+    <div class="text-center mb-5">
+        <span class="badge bg-primary mb-2">Best Sellers</span>
+        <h2 class="display-5 fw-bold">Featured Products</h2>
+        <p class="text-muted">Top quality products for your farm</p>
+    </div>
 
-    <div class="row g-4">
-        @if (Model != null && Model.Any())
-        {
+    @if (Model != null && Model.Any())
+    {
+        <div class="row g-4">
             @foreach (var product in Model)
             {
-                <div class="col-md-3 col-sm-6">
-                    <div class="card product-card shadow-sm border-0 rounded-4 h-100">
-                        <div class="product-img-wrapper">
-                            <img src="@(product.ImageUrl ?? "/images/placeholder.jpg")" 
-                                 class="card-img-top rounded-top-4" 
+                <div class="col-md-6 col-lg-3">
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="@(product.ImageUrl ?? "https://via.placeholder.com/300")" 
                                  alt="@product.ProductName">
+                            @if (product.DiscountPrice.HasValue)
+                            {
+                                var discount = Math.Round((decimal)(product.Price - product.DiscountPrice) / product.Price * 100);
+                                <span class="discount-badge">-@discount%</span>
+                            }
+                          @*   @if (product.IsFeatured)
+                            {
+                                <span class="featured-badge">
+                                    <i class="fas fa-star"></i>
+                                </span>
+                            } *@
                         </div>
-
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold">@product.ProductName</h5>
-                            <p class="text-muted small">@product.Manufacturer</p>
-
-                            <div class="mb-2">
+                        <div class="product-body">
+                            <div class="product-category">@product.Category?.CategoryName</div>
+                            <h5 class="product-title">@product.ProductName</h5>
+                            <p class="product-manufacturer">
+                                <i class="fas fa-industry"></i> @product.Manufacturer
+                            </p>
+                            <div class="product-price">
                                 @if (product.DiscountPrice.HasValue)
                                 {
-                                    <span class="price fw-bold text-success">₹@product.DiscountPrice</span>
-                                    <span class="old-price text-muted text-decoration-line-through ms-2">₹@product.Price</span>
+                                    <span class="current-price">₹@product.DiscountPrice</span>
+                                    <span class="old-price">₹@product.Price</span>
                                 }
                                 else
                                 {
-                                    <span class="price fw-bold">₹@product.Price</span>
+                                    <span class="current-price">₹@product.Price</span>
                                 }
-                                <span class="text-muted small">/@product.Unit</span>
+                                <span class="unit">/@product.Unit</span>
                             </div>
-
-                            @if (product.StockQuantity > 0)
-                            {
-                                <span class="badge bg-success">In Stock</span>
-                            }
-                            else
-                            {
-                                <span class="badge bg-danger">Out of Stock</span>
-                            }
-                        </div>
-
-                        <div class="card-footer bg-transparent border-0">
-                            <a href="/Products/Details/@product.ProductId" 
-                               class="btn btn-primary w-100 rounded-pill shadow-sm">
-                                <i class="fas fa-eye"></i> View Details
-                            </a>
+                            <div class="product-footer">
+                                @if (product.StockQuantity > 0)
+                                {
+                                    <span class="stock-badge in-stock">
+                                        <i class="fas fa-check-circle"></i> In Stock
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="stock-badge out-stock">
+                                        <i class="fas fa-times-circle"></i> Out of Stock
+                                    </span>
+                                }
+                                <a href="/Products/Details/@product.ProductId" class="btn-view">
+                                    View Details <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
             }
-        }
-        else
-        {
-            <div class="col-12">
-                <div class="alert alert-info text-center">
-                    <i class="fas fa-info-circle"></i> No featured products available.
-                </div>
-            </div>
-        }
-    </div>
+        </div>
+    }
+    else
+    {
+        <div class="text-center py-5">
+            <i class="fas fa-box-open fa-4x text-muted mb-3"></i>
+            <h4>No featured products available</h4>
+        </div>
+    }
 </div>
 
-<!-- Services Section -->
-<div class="container my-5">
-    <div class="row text-center g-4">
-        <div class="col-md-3">
-            <div class="card service-card shadow-sm border-0 rounded-4">
-                <div class="card-body">
-                    <i class="fas fa-truck fa-3x text-primary mb-3"></i>
+<!-- Features Section -->
+<div class="features-section py-5">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-3">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-truck"></i>
+                    </div>
                     <h5>Free Delivery</h5>
-                    <p class="text-muted">On orders above ₹500</p>
+                    <p>On orders above ₹500</p>
                 </div>
             </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="card service-card shadow-sm border-0 rounded-4">
-                <div class="card-body">
-                    <i class="fas fa-shield-alt fa-3x text-primary mb-3"></i>
+            <div class="col-md-6 col-lg-3">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
                     <h5>Genuine Products</h5>
-                    <p class="text-muted">100% Authentic</p>
+                    <p>100% Authentic</p>
                 </div>
             </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="card service-card shadow-sm border-0 rounded-4">
-                <div class="card-body">
-                    <i class="fas fa-headset fa-3x text-primary mb-3"></i>
+            <div class="col-md-6 col-lg-3">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
                     <h5>24/7 Support</h5>
-                    <p class="text-muted">Expert assistance</p>
+                    <p>Expert assistance</p>
                 </div>
             </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="card service-card shadow-sm border-0 rounded-4">
-                <div class="card-body">
-                    <i class="fas fa-undo fa-3x text-primary mb-3"></i>
+            <div class="col-md-6 col-lg-3">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-undo"></i>
+                    </div>
                     <h5>Easy Returns</h5>
-                    <p class="text-muted">7-day return policy</p>
+                    <p>7-day return policy</p>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Custom CSS -->
 <style>
     /* Hero Section */
     .hero-section {
-        height: 70vh;
-        background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
-                    url('/images/hero-farm-bg.jpg') center/cover no-repeat;
-        border-radius: 0 0 40px 40px;
-        backdrop-filter: blur(5px);
-    }
-
-    .section-title {
+        background: linear-gradient(135deg, #2e7d32 0%, #558b2f 100%);
+        color: white;
+        padding: 80px 0;
         position: relative;
-        display: inline-block;
     }
 
-    .section-title::after {
-        content: "";
-        width: 60px;
-        height: 4px;
-        background: #0d6efd;
-        display: block;
-        margin: 8px auto 0;
-        border-radius: 10px;
+    .hero-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff" fill-opacity="0.1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,154.7C960,171,1056,181,1152,165.3C1248,149,1344,107,1392,85.3L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+        background-size: cover;
+        opacity: 0.3;
     }
 
-    /* Product Card */
-    .product-card {
-        transition: all 0.3s ease;
+    .min-vh-50 {
+        min-height: 50vh;
     }
-    .product-card:hover {
-        transform: translateY(-6px);
-        box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+
+    .text-gradient {
+        background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
     }
-    .product-img-wrapper {
-        height: 220px;
-        overflow: hidden;
-        border-radius: 20px 20px 0 0;
-    }
-    .product-img-wrapper img {
-        height: 100%;
-        width: 100%;
-        object-fit: cover;
-        transition: transform 0.4s ease;
-    }
-    .product-card:hover img {
-        transform: scale(1.1);
+
+    .hero-image img {
+        filter: drop-shadow(0 20px 40px rgba(0,0,0,0.3));
+        max-width: 80%;
     }
 
     /* Animations */
-    .animate-fade {
-        animation: fadeIn 1.2s ease-in-out;
+    @@keyframes fadeIn {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
     }
-   
 
-    /* Service Cards */
-    .service-card {
-        transition: 0.3s ease;
-        border-radius: 20px;
+    @@keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-20px); }
     }
-    .service-card:hover {
-        transform: translateY(-6px);
-        box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+
+    .animate-fade-in {
+        animation: fadeIn 0.8s ease-out;
+    }
+
+    .animate-fade-in-delay {
+        animation: fadeIn 0.8s ease-out 0.2s both;
+    }
+
+    .animate-fade-in-delay-2 {
+        animation: fadeIn 0.8s ease-out 0.4s both;
+    }
+
+    .animate-float {
+        animation: float 3s ease-in-out infinite;
+    }
+
+    /* Product Cards */
+    .product-card {
+        background: white;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        height: 100%;
+    }
+
+    .product-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+    }
+
+    .product-image {
+        position: relative;
+        height: 200px;
+        overflow: hidden;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    }
+
+    .product-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+    }
+
+    .product-card:hover .product-image img {
+        transform: scale(1.1);
+    }
+
+    .discount-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: #e74c3c;
+        color: white;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-weight: bold;
+        font-size: 0.85rem;
+    }
+
+    .featured-badge {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background: #f39c12;
+        color: white;
+        padding: 8px;
+        border-radius: 50%;
+        width: 35px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .product-body {
+        padding: 20px;
+    }
+
+    .product-category {
+        color: #3498db;
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+    }
+
+    .product-title {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 8px;
+        min-height: 50px;
+    }
+
+    .product-manufacturer {
+        color: #7f8c8d;
+        font-size: 0.85rem;
+        margin-bottom: 15px;
+    }
+
+    .product-price {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+
+    .current-price {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #2e7d32;
     }
 
     .old-price {
+        font-size: 1rem;
+        color: #95a5a6;
+        text-decoration: line-through;
+    }
+
+    .unit {
+        color: #7f8c8d;
+        font-size: 0.9rem;
+    }
+
+    .product-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 15px;
+        border-top: 1px solid #ecf0f1;
+    }
+
+    .stock-badge {
         font-size: 0.85rem;
+        font-weight: 600;
+    }
+
+    .in-stock {
+        color: #27ae60;
+    }
+
+    .out-stock {
+        color: #e74c3c;
+    }
+
+    .btn-view {
+        color: #3498db;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .btn-view:hover {
+        color: #2980b9;
+        transform: translateX(5px);
+    }
+
+    /* Features Section */
+    .features-section {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    }
+
+    .feature-card {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        text-align: center;
+        transition: all 0.3s ease;
+        height: 100%;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
+
+    .feature-icon {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 20px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        color: white;
+    }
+
+    .feature-card h5 {
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 10px;
+    }
+
+    .feature-card p {
+        color: #7f8c8d;
+        margin: 0;
+    }
+
+    /* Button Hover Effects */
+    .hover-lift {
+        transition: all 0.3s ease;
+    }
+
+    .hover-lift:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     }
 </style>

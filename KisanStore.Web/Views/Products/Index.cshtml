@@ -1,0 +1,369 @@
+﻿@model List<KisanStore.Web.Models.Product>
+@{
+    ViewData["Title"] = "Products";
+}
+
+
+
+<div class="products-hero">
+    <div class="container">
+        <h1 class="display-4 fw-bold text-white mb-2">
+            <i class="fas fa-shopping-bag"></i> All Products
+        </h1>
+        <p class="lead text-white-50">Find the perfect solution for your farm</p>
+    </div>
+</div>
+
+<div class="container my-5">
+    <!-- Filters Section -->
+    <div class="row mb-4">
+        <div class="col-lg-8">
+            <form method="get" class="search-form">
+                <div class="input-group input-group-lg">
+                    <span class="input-group-text border-0 bg-white">
+                        <i class="fas fa-search text-primary"></i>
+                    </span>
+                    <input type="text" name="search" class="form-control border-0" 
+                           placeholder="Search products..." value="@Context.Request.Query["search"]">
+                    <button type="submit" class="btn btn-primary px-4">
+                        <i class="fas fa-search"></i> Search
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div class="col-lg-4">
+            <form method="get" id="categoryForm">
+                <select name="categoryId" class="form-select form-select-lg" 
+                        onchange="document.getElementById('categoryForm').submit()">
+                    <option value="">All Categories</option>
+                    @if (ViewBag.Categories != null)
+                    {
+                        @foreach (var cat in ViewBag.Categories)
+                        {
+                            <option value="@cat.CategoryId" 
+                                    selected="@(Context.Request.Query["categoryId"] == cat.CategoryId.ToString())">
+                                @cat.CategoryName
+                            </option>
+                        }
+                    }
+                </select>
+            </form>
+        </div>
+    </div>
+
+    <!-- Products Count -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h5 class="mb-0">
+            <span class="badge bg-primary">@(Model?.Count ?? 0)</span> Products Found
+        </h5>
+        <div class="view-toggle">
+            <button class="btn btn-outline-primary active" onclick="setView('grid')">
+                <i class="fas fa-th"></i>
+            </button>
+            <button class="btn btn-outline-primary" onclick="setView('list')">
+                <i class="fas fa-list"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Products Grid -->
+    @if (Model != null && Model.Any())
+    {
+        <div class="row g-4" id="productsGrid">
+            @foreach (var product in Model)
+            {
+                <div class="col-md-6 col-lg-4 col-xl-3 product-item">
+                    <div class="modern-product-card">
+                        <div class="product-img-wrapper">
+                            <img src="@(product.ImageUrl ?? "https://via.placeholder.com/300")" 
+                                 alt="@product.ProductName" class="product-img">
+                            @if (product.DiscountPrice.HasValue)
+                            {
+                                var discount = Math.Round((decimal)(product.Price - product.DiscountPrice) / product.Price * 100);
+                                <div class="product-badge discount">-@discount% OFF</div>
+                            }
+                            @* @if (product.IsFeatured)
+                            {
+                                <div class="product-badge featured">
+                                    <i class="fas fa-star"></i> Featured
+                                </div>
+                            } *@
+                            <div class="product-overlay">
+                                <a href="/Products/Details/@product.ProductId" class="btn btn-light btn-sm">
+                                    <i class="fas fa-eye"></i> Quick View
+                                </a>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-cat">@product.Category?.CategoryName</div>
+                            <h6 class="product-name">@product.ProductName</h6>
+                            <div class="product-meta">
+                                <small><i class="fas fa-industry"></i> @product.Manufacturer</small>
+                            </div>
+                            <div class="product-pricing">
+                                @if (product.DiscountPrice.HasValue)
+                                {
+                                    <span class="price-new">₹@product.DiscountPrice</span>
+                                    <span class="price-old">₹@product.Price</span>
+                                }
+                                else
+                                {
+                                    <span class="price-new">₹@product.Price</span>
+                                }
+                                <span class="price-unit">/@product.Unit</span>
+                            </div>
+                            <div class="product-actions">
+                                @if (product.StockQuantity > 0)
+                                {
+                                    <span class="stock-status available">
+                                        <i class="fas fa-check-circle"></i> Available
+                                    </span>
+                                    <a href="/Products/Details/@product.ProductId" class="btn-add-cart">
+                                        <i class="fas fa-shopping-cart"></i>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <span class="stock-status unavailable">
+                                        <i class="fas fa-times-circle"></i> Out of Stock
+                                    </span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="empty-state">
+            <i class="fas fa-box-open fa-5x text-muted mb-4"></i>
+            <h3>No Products Found</h3>
+            <p class="text-muted">Try adjusting your search or filters</p>
+            <a href="/Products" class="btn btn-primary mt-3">
+                <i class="fas fa-refresh"></i> Reset Filters
+            </a>
+        </div>
+    }
+</div>
+
+<style>
+    .products-hero {
+        background: linear-gradient(135deg, #2e7d32 0%, #558b2f 100%);
+        padding: 60px 0;
+        margin-bottom: 0;
+    }
+
+    .search-form .input-group {
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        border-radius: 50px;
+        overflow: hidden;
+    }
+
+    .search-form .form-control:focus {
+        box-shadow: none;
+    }
+
+    .view-toggle .btn {
+        border-radius: 8px;
+    }
+
+    .modern-product-card {
+        background: white;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+        transition: all 0.4s ease;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .modern-product-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+    }
+
+    .product-img-wrapper {
+        position: relative;
+        height: 220px;
+        overflow: hidden;
+        background: linear-gradient(135deg, #f5f7fa 0%, #e8eef3 100%);
+    }
+
+    .product-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+
+    .modern-product-card:hover .product-img {
+        transform: scale(1.15);
+    }
+
+    .product-badge {
+        position: absolute;
+        top: 12px;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        z-index: 2;
+    }
+
+    .product-badge.discount {
+        right: 12px;
+        background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+        color: white;
+    }
+
+    .product-badge.featured {
+        left: 12px;
+        background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+        color: white;
+    }
+
+    .product-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .modern-product-card:hover .product-overlay {
+        opacity: 1;
+    }
+
+    .product-info {
+        padding: 20px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .product-cat {
+        color: #3498db;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 8px;
+    }
+
+    .product-name {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 8px;
+        min-height: 48px;
+        line-height: 1.4;
+    }
+
+    .product-meta {
+        color: #95a5a6;
+        font-size: 0.8rem;
+        margin-bottom: 12px;
+    }
+
+    .product-pricing {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 15px;
+    }
+
+    .price-new {
+        font-size: 1.4rem;
+        font-weight: 800;
+        color: #27ae60;
+    }
+
+    .price-old {
+        font-size: 0.95rem;
+        color: #bdc3c7;
+        text-decoration: line-through;
+    }
+
+    .price-unit {
+        color: #7f8c8d;
+        font-size: 0.85rem;
+    }
+
+    .product-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 15px;
+        border-top: 1px solid #ecf0f1;
+        margin-top: auto;
+    }
+
+    .stock-status {
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
+
+    .stock-status.available {
+        color: #27ae60;
+    }
+
+    .stock-status.unavailable {
+        color: #e74c3c;
+    }
+
+    .btn-add-cart {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .btn-add-cart:hover {
+        transform: scale(1.1);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 80px 20px;
+    }
+
+    @@media (max-width: 768px) {
+        .product-item {
+            max-width: 300px;
+            margin: 0 auto;
+        }
+    }
+</style>
+
+<script>
+    function setView(type) {
+        const grid = document.getElementById('productsGrid');
+        const buttons = document.querySelectorAll('.view-toggle .btn');
+        
+        buttons.forEach(btn => btn.classList.remove('active'));
+        event.target.closest('button').classList.add('active');
+        
+        if (type === 'list') {
+            grid.classList.add('list-view');
+        } else {
+            grid.classList.remove('list-view');
+        }
+    }
+</script>

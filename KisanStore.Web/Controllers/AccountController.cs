@@ -79,6 +79,24 @@ namespace KisanStore.Web.Controllers
             return View(model);
         }
 
+        // Add this method to existing AccountController
+        public async Task<IActionResult> Orders()
+        {
+            var userId = HttpContext.Session.GetString("UserId");
+            if (string.IsNullOrEmpty(userId))
+                return RedirectToAction("Login");
+
+            var response = await _httpClient.GetAsync($"{_apiUrl}/Orders/user/{userId}");
+            if (response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                var orders = JsonSerializer.Deserialize<List<OrderViewModel>>(json,
+                    new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                return View(orders);
+            }
+            return View(new List<OrderViewModel>());
+        }
+
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();

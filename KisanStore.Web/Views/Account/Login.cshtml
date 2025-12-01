@@ -1,72 +1,377 @@
-﻿<!-- Views/Account/Login.cshtml -->
-@model KisanStore.Web.DTOs.LoginDto
-@{
+﻿@{
     ViewData["Title"] = "Login";
 }
 
-<div class="container my-5">
-    <div class="row justify-content-center">
-        <div class="col-md-5">
-            <div class="card shadow">
-                <div class="card-body p-5">
+<div class="auth-page">
+    <div class="auth-container">
+        <div class="row g-0 h-100">
+            <!-- Left Side - Image/Branding -->
+            <div class="col-lg-6 d-none d-lg-flex auth-left">
+                <div class="auth-branding">
+                    <div class="brand-logo">
+                        <i class="fas fa-seedling"></i>
+                    </div>
+                    <h1 class="display-4 fw-bold text-white mb-3">Welcome Back!</h1>
+                    <p class="lead text-white-50">Login to access your KisanStore account</p>
+                    <div class="features-list">
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Premium Quality Products</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Fast & Free Delivery</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Expert Support 24/7</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side - Form -->
+            <div class="col-lg-6">
+                <div class="auth-form-wrapper">
                     <div class="text-center mb-4">
-                        <i class="fas fa-seedling fa-3x text-primary"></i>
-                        <h2 class="mt-3">Welcome Back!</h2>
-                        <p class="text-muted">Login to your account</p>
+                        <div class="auth-icon">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <h2 class="fw-bold mb-2">Login to Your Account</h2>
+                        <p class="text-muted">Enter your credentials to continue</p>
                     </div>
 
                     @if (!ViewData.ModelState.IsValid)
                     {
-                        <div class="alert alert-danger">
-                            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                        <div class="alert alert-danger alert-modern">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            @Html.ValidationSummary(false, "", new { @class = "mb-0" })
                         </div>
                     }
 
-                    <form method="post" asp-action="Login">
-                        <div class="mb-3">
-                            <label class="form-label">Email Address</label>
-                            <div class="input-group">
-                                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                                <input type="email" name="Email" class="form-control" 
-                                       placeholder="Enter your email" required>
+                    <form method="post" asp-action="Login" class="auth-form">
+                        <div class="form-floating mb-3">
+                            <input type="email" name="Email" class="form-control form-control-lg" 
+                                   id="emailInput" placeholder="name@example.com" required>
+                            <label for="emailInput">
+                                <i class="fas fa-envelope me-2"></i>Email Address
+                            </label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="password" name="Password" class="form-control form-control-lg" 
+                                   id="passwordInput" placeholder="Password" required>
+                            <label for="passwordInput">
+                                <i class="fas fa-lock me-2"></i>Password
+                            </label>
+                            <span class="password-toggle" onclick="togglePassword()">
+                                <i class="fas fa-eye" id="toggleIcon"></i>
+                            </span>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="remember">
+                                <label class="form-check-label" for="remember">
+                                    Remember me
+                                </label>
                             </div>
+                            <a href="#" class="text-primary fw-semibold">Forgot Password?</a>
                         </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Password</label>
-                            <div class="input-group">
-                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                                <input type="password" name="Password" class="form-control" 
-                                       placeholder="Enter your password" required>
-                            </div>
-                        </div>
-
-                        <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="remember">
-                            <label class="form-check-label" for="remember">Remember me</label>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary w-100 mb-3">
-                            <i class="fas fa-sign-in-alt"></i> Login
+                        <button type="submit" class="btn btn-primary btn-lg w-100 mb-3">
+                            <i class="fas fa-sign-in-alt me-2"></i>Login Now
                         </button>
 
                         <div class="text-center">
-                            <p class="text-muted">Don't have an account? 
-                                <a href="/Account/Register">Register here</a>
-                            </p>
+                            <p class="text-muted mb-3">Or login with</p>
+                            <div class="social-login">
+                                <button type="button" class="btn-social google">
+                                    <i class="fab fa-google"></i>
+                                </button>
+                                <button type="button" class="btn-social facebook">
+                                    <i class="fab fa-facebook-f"></i>
+                                </button>
+                                <button type="button" class="btn-social twitter">
+                                    <i class="fab fa-twitter"></i>
+                                </button>
+                            </div>
                         </div>
-                    </form>
-                </div>
-            </div>
 
-            <!-- Demo Credentials Card -->
-            <div class="card mt-3 bg-light">
-                <div class="card-body">
-                    <h6 class="text-center mb-2">Demo Admin Credentials</h6>
-                    <p class="mb-1 small"><strong>Email:</strong> admin@kisanstore.com</p>
-                    <p class="mb-0 small"><strong>Password:</strong> Admin@123</p>
+                        <div class="divider">
+                            <span>New to KisanStore?</span>
+                        </div>
+
+                        <a href="/Account/Register" class="btn btn-outline-primary btn-lg w-100">
+                            <i class="fas fa-user-plus me-2"></i>Create Account
+                        </a>
+                    </form>
+
+                    <!-- Demo Credentials -->
+                    <div class="demo-credentials">
+                        <h6><i class="fas fa-info-circle"></i> Demo Credentials</h6>
+                        <div class="credential-box">
+                            <p class="mb-1"><strong>Admin:</strong> admin@kisanstore.com</p>
+                            <p class="mb-0"><strong>Password:</strong> Admin@123</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+    .auth-page {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        padding: 20px;
+    }
+
+    .auth-container {
+        max-width: 1100px;
+        width: 100%;
+        background: white;
+        border-radius: 25px;
+        overflow: hidden;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+        min-height: 700px;
+    }
+
+    .auth-left {
+        background: linear-gradient(135deg, #2e7d32 0%, #558b2f 100%);
+        padding: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .auth-left::before {
+        content: '';
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        background: rgba(255,255,255,0.1);
+        border-radius: 50%;
+        top: -100px;
+        right: -100px;
+    }
+
+    .auth-branding {
+        position: relative;
+        z-index: 1;
+    }
+
+    .brand-logo {
+        width: 100px;
+        height: 100px;
+        background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+        border-radius: 25px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3rem;
+        color: #2e7d32;
+        margin-bottom: 30px;
+        box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+        animation: float 3s ease-in-out infinite;
+    }
+
+    @@keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-20px); }
+    }
+
+    .features-list {
+        margin-top: 40px;
+    }
+
+    .feature-item {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        color: white;
+        margin-bottom: 20px;
+        font-size: 1.1rem;
+    }
+
+    .feature-item i {
+        font-size: 1.5rem;
+        color: #ffd700;
+    }
+
+    .auth-form-wrapper {
+        padding: 60px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100%;
+    }
+
+    .auth-icon {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.5rem;
+        color: white;
+        margin: 0 auto 20px;
+    }
+
+    .form-floating {
+        position: relative;
+    }
+
+    .form-control:focus {
+        border-color: #2e7d32;
+        box-shadow: 0 0 0 0.25rem rgba(46, 125, 50, 0.15);
+    }
+
+    .password-toggle {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: #7f8c8d;
+        z-index: 10;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #2e7d32 0%, #558b2f 100%);
+        border: none;
+        padding: 15px;
+        font-weight: 700;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(46, 125, 50, 0.3);
+    }
+
+    .social-login {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+    }
+
+    .btn-social {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        border: 2px solid #e0e0e0;
+        background: white;
+        color: #7f8c8d;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .btn-social:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+
+    .btn-social.google:hover {
+        background: #ea4335;
+        color: white;
+        border-color: #ea4335;
+    }
+
+    .btn-social.facebook:hover {
+        background: #3b5998;
+        color: white;
+        border-color: #3b5998;
+    }
+
+    .btn-social.twitter:hover {
+        background: #1da1f2;
+        color: white;
+        border-color: #1da1f2;
+    }
+
+    .divider {
+        text-align: center;
+        margin: 25px 0;
+        position: relative;
+    }
+
+    .divider::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: #e0e0e0;
+    }
+
+    .divider span {
+        background: white;
+        padding: 0 15px;
+        position: relative;
+        color: #7f8c8d;
+        font-weight: 600;
+    }
+
+    .demo-credentials {
+        margin-top: 30px;
+        padding: 20px;
+        background: linear-gradient(135deg, #fff3cd 0%, #ffe4a0 100%);
+        border-radius: 12px;
+        border-left: 4px solid #ffc107;
+    }
+
+    .demo-credentials h6 {
+        font-weight: 700;
+        color: #856404;
+        margin-bottom: 10px;
+    }
+
+    .credential-box p {
+        color: #856404;
+        font-size: 0.9rem;
+    }
+
+    .alert-modern {
+        border: none;
+        border-radius: 12px;
+        border-left: 4px solid #dc3545;
+    }
+
+    @@media (max-width: 991px) {
+        .auth-form-wrapper {
+            padding: 40px 30px;
+        }
+    }
+</style>
+
+<script>
+    function togglePassword() {
+        const passwordInput = document.getElementById('passwordInput');
+        const toggleIcon = document.getElementById('toggleIcon');
+        
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            toggleIcon.classList.remove('fa-eye');
+            toggleIcon.classList.add('fa-eye-slash');
+        } else {
+            passwordInput.type = 'password';
+            toggleIcon.classList.remove('fa-eye-slash');
+            toggleIcon.classList.add('fa-eye');
+        }
+    }
+</script>
