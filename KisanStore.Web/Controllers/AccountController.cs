@@ -102,5 +102,16 @@ namespace KisanStore.Web.Controllers
             HttpContext.Session.Clear();
             return RedirectToAction("Index", "Home");
         }
+
+
+        public IActionResult Profile()
+        {
+            var userId = HttpContext.Session.GetString("UserId");
+            if (string.IsNullOrEmpty(userId))
+                return RedirectToAction("Login");
+            return View();
+        }
+
+
     }
 }

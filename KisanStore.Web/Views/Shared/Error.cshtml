@@ -1,25 +1,375 @@
-﻿@model ErrorViewModel
+﻿<!-- Views/Shared/Error.cshtml -->
 @{
     ViewData["Title"] = "Error";
 }
 
-<h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">An error occurred while processing your request.</h2>
+<div class="error-page">
+    <div class="error-container">
+        <div class="error-animation">
+            <div class="error-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <div class="error-circles">
+                <div class="circle circle-1"></div>
+                <div class="circle circle-2"></div>
+                <div class="circle circle-3"></div>
+            </div>
+        </div>
 
-@if (Model.ShowRequestId)
-{
-    <p>
-        <strong>Request ID:</strong> <code>@Model.RequestId</code>
-    </p>
+        <h1 class="error-code">500</h1>
+        <h2 class="error-title">Oops! Something went wrong</h2>
+        <p class="error-message">
+            We're sorry, but something unexpected happened. Our team has been notified
+            and we're working to fix the issue.
+        </p>
+
+        <div class="error-actions">
+            <a href="/" class="btn btn-primary btn-lg">
+                <i class="fas fa-home"></i> Go to Homepage
+            </a>
+            <button onclick="history.back()" class="btn btn-outline-primary btn-lg">
+                <i class="fas fa-arrow-left"></i> Go Back
+            </button>
+        </div>
+
+        <div class="error-help">
+            <p class="text-muted">Need help? Contact our support team</p>
+            <div class="contact-options">
+                <a href="mailto:support@kisanstore.com" class="contact-link">
+                    <i class="fas fa-envelope"></i> support@kisanstore.com
+                </a>
+                <a href="tel:+919876543210" class="contact-link">
+                    <i class="fas fa-phone"></i> +91 98765 43210
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .error-page {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        padding: 20px;
+    }
+
+    .error-container {
+        text-align: center;
+        max-width: 600px;
+    }
+
+    .error-animation {
+        position: relative;
+        width: 200px;
+        height: 200px;
+        margin: 0 auto 40px;
+    }
+
+    .error-icon {
+        position: relative;
+        z-index: 2;
+        width: 200px;
+        height: 200px;
+        background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 5rem;
+        color: white;
+        box-shadow: 0 20px 60px rgba(231, 76, 60, 0.4);
+        animation: shake 0.5s ease-in-out infinite alternate;
+    }
+
+    @@keyframes shake {
+        0% {
+            transform: rotate(-5deg);
+        }
+
+        100% {
+            transform: rotate(5deg);
+        }
+    }
+
+    .error-circles {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .circle {
+        position: absolute;
+        border-radius: 50%;
+        opacity: 0.3;
+        animation: pulse 2s ease-in-out infinite;
+    }
+
+    .circle-1 {
+        top: -20px;
+        left: -20px;
+        width: 240px;
+        height: 240px;
+        background: #e74c3c;
+        animation-delay: 0s;
+    }
+
+    .circle-2 {
+        top: -40px;
+        left: -40px;
+        width: 280px;
+        height: 280px;
+        background: #c0392b;
+        animation-delay: 0.3s;
+    }
+
+    .circle-3 {
+        top: -60px;
+        left: -60px;
+        width: 320px;
+        height: 320px;
+        background: #e74c3c;
+        animation-delay: 0.6s;
+    }
+
+    @@keyframes pulse {
+        0%, 100% {
+            transform: scale(1);
+            opacity: 0.3;
+        }
+
+        50% {
+            transform: scale(1.1);
+            opacity: 0.1;
+        }
+    }
+
+    .error-code {
+        font-size: 8rem;
+        font-weight: 900;
+        background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 20px;
+        line-height: 1;
+    }
+
+    .error-title {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: #2c3e50;
+        margin-bottom: 20px;
+    }
+
+    .error-message {
+        font-size: 1.2rem;
+        color: #7f8c8d;
+        margin-bottom: 40px;
+        line-height: 1.8;
+    }
+
+    .error-actions {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        margin-bottom: 40px;
+    }
+
+    .error-help {
+        padding-top: 40px;
+        border-top: 2px solid #e0e0e0;
+    }
+
+    .contact-options {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 15px;
+    }
+
+    .contact-link {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 20px;
+        background: white;
+        border-radius: 25px;
+        color: #667eea;
+        text-decoration: none;
+        font-weight: 600;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+    }
+
+        .contact-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.15);
+            color: #667eea;
+        }
+</style>
+
+<!-- ========================================== -->
+<!-- Views/Shared/NotFound.cshtml (404 Page) -->
+<!-- ========================================== -->
+@{
+    ViewData["Title"] = "Page Not Found";
 }
 
-<h3>Development Mode</h3>
-<p>
-    Swapping to <strong>Development</strong> environment will display more detailed information about the error that occurred.
-</p>
-<p>
-    <strong>The Development environment shouldn't be enabled for deployed applications.</strong>
-    It can result in displaying sensitive information from exceptions to end users.
-    For local debugging, enable the <strong>Development</strong> environment by setting the <strong>ASPNETCORE_ENVIRONMENT</strong> environment variable to <strong>Development</strong>
-    and restarting the app.
-</p>
+<div class="error-page">
+    <div class="error-container">
+        <div class="error-animation-404">
+            <div class="number-404">
+                <span class="four">4</span>
+                <span class="zero">
+                    <i class="fas fa-search"></i>
+                </span>
+                <span class="four">4</span>
+            </div>
+        </div>
+
+        <h2 class="error-title">Page Not Found</h2>
+        <p class="error-message">
+            The page you're looking for doesn't exist or has been moved.
+            Let's get you back on track!
+        </p>
+
+        <div class="error-actions">
+            <a href="/" class="btn btn-primary btn-lg">
+                <i class="fas fa-home"></i> Go to Homepage
+            </a>
+            <a href="/Products" class="btn btn-outline-primary btn-lg">
+                <i class="fas fa-shopping-bag"></i> Browse Products
+            </a>
+        </div>
+
+        <div class="popular-links">
+            <h6>Popular Pages</h6>
+            <div class="links-grid">
+                <a href="/"><i class="fas fa-home"></i> Home</a>
+                <a href="/Products"><i class="fas fa-box"></i> Products</a>
+                <a href="/Cart"><i class="fas fa-shopping-cart"></i> Cart</a>
+                <a href="/Home/About"><i class="fas fa-info-circle"></i> About</a>
+                <a href="/Home/Contact"><i class="fas fa-phone"></i> Contact</a>
+                <a href="/Account/Login"><i class="fas fa-sign-in-alt"></i> Login</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .error-animation-404 {
+        margin: 0 auto 60px;
+    }
+
+    .number-404 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        font-size: 10rem;
+        font-weight: 900;
+    }
+
+        .number-404 .four {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+            .number-404 .four:last-child {
+                animation-delay: 0.2s;
+            }
+
+        .number-404 .zero {
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 4rem;
+            animation: rotate 3s linear infinite;
+        }
+
+    @@keyframes bounce {
+        0%, 100% {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(-20px);
+        }
+    }
+
+    @@keyframes rotate {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    .popular-links {
+        margin-top: 60px;
+        padding-top: 40px;
+        border-top: 2px solid #e0e0e0;
+    }
+
+        .popular-links h6 {
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+    .links-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 15px;
+    }
+
+        .links-grid a {
+            padding: 15px 20px;
+            background: white;
+            border-radius: 12px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+            .links-grid a:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+                color: #667eea;
+            }
+
+    @@media (max-width: 768px) {
+        .number-404 {
+            font-size: 6rem;
+        }
+
+            .number-404 .zero {
+                width: 100px;
+                height: 100px;
+                font-size: 2.5rem;
+            }
+
+        .error-actions {
+            flex-direction: column;
+        }
+    }
+</style>

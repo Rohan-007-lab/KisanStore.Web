@@ -13,6 +13,16 @@ namespace KisanStore.Web.Controllers
             _httpClient = httpClientFactory.CreateClient();
         }
 
+        public IActionResult Reports()
+        {
+            if (!IsAdmin())
+                return RedirectToAction("Login", "Account");
+            return View();
+        }
+
+
+       
+
         private bool IsAdmin()
         {
             var role = HttpContext.Session.GetString("UserRole");
