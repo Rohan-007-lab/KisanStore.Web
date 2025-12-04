@@ -57,12 +57,12 @@
                                 var discount = Math.Round((decimal)(product.Price - product.DiscountPrice) / product.Price * 100);
                                 <span class="discount-badge">-@discount%</span>
                             }
-                           @*  @if (product.IsFeatured)
-                            {
-                                <span class="featured-badge">
-                                    <i class="fas fa-star"></i>
-                                </span>
-                            } *@
+                                           @if ((bool)product.IsFeatured)
+                                        {
+                                            <span class="featured-badge">
+                                                <i class="fas fa-star"></i> Featured
+                                            </span>
+                                        }
                         </div>
                         <div class="product-body">
                             <div class="product-category">@product.Category?.CategoryName</div>
